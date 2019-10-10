@@ -1,0 +1,19 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <header class="header--form-page">
+      {% include 'base/header_nav_form.html' %}
+
+      <div class="slogan container container--90">
+          <h2>
+            Dziękujemy za przesłanie formularza Na maila prześlemy wszelkie
+            informacje o odbiorze.
+          </h2>
+      </div>
+    </header>
+
+{% include 'base/footer.html' %}
+
+{% endblock content %}
