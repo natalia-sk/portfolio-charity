@@ -18,6 +18,11 @@ class Institution(models.Model):
     type_of = models.IntegerField(choices=TYPES, default=1)
     categories = models.ManyToManyField(Category)
 
+    @property
+    def name_type_of(self):
+        name_type = dict(TYPES)[self.type_of]
+        return name_type
+
 
 class Donation(models.Model):
     quantity = models.PositiveSmallIntegerField()
