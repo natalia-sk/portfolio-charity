@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 TYPES = (
@@ -16,3 +17,22 @@ class Institution(models.Model):
     description = models.TextField()
     type_of = models.IntegerField(choices=TYPES, default=1)
     categories = models.ManyToManyField(Category)
+
+
+class Donation(models.Model):
+    quantity = models.PositiveSmallIntegerField()
+    categories = models.ManyToManyField(Category)
+    institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
+    address_street = models.CharField(max_length=64)
+    address_number = models.PositiveSmallIntegerField()
+    phone_number = models.CharField(max_length=16, unique=True)
+    city = models.CharField(max_length=64)
+    zip_code = models.CharField(max_length=6)
+    pick_up_date = models.DateField()
+    pick_up_time = models.TimeField()
+    pick_up_comment = models.CharField(max_length=255)
+    user = models.ForeignKey(User, null=True, default=None, on_delete=models.CASCADE)
+
+    @property
+    def address(self):
+        return f"{self.address_street} {self.address_number}"
