@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 
@@ -35,6 +36,15 @@ class Login(View):
     def get(self, request):
         return render(request, 'charity/login.html')
 
+    def post(self, request):
+        username = request.POST.get('email')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user:
+            login(request, user)
+            return redirect('landing-page')
+        return redirect('register')
+
 
 class Register(View):
 
@@ -55,4 +65,3 @@ class Register(View):
         else:
             info = 'Hasło inne niż wpisane wcześniej, spróbuj ponownie.'
             return render(request, 'charity/register.html', {'info': info})
-
