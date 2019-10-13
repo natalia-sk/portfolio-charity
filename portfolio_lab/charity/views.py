@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 
@@ -65,3 +65,9 @@ class Register(View):
         else:
             info = 'Hasło inne niż wpisane wcześniej, spróbuj ponownie.'
             return render(request, 'charity/register.html', {'info': info})
+
+
+class Logout(View):
+    def get(self, request):
+        logout(request)
+        return redirect('landing-page')
