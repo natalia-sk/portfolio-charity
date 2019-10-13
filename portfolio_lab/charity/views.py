@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
 
 from django.views import View
 
@@ -6,6 +7,7 @@ from charity.models import Donation, Institution
 
 
 class LandingPage(View):
+
     def get(self, request):
         donations = Donation.objects.all()
         number_of_bags = [donation.quantity for donation in donations]
@@ -23,15 +25,34 @@ class LandingPage(View):
 
 
 class AddDonation(View):
+
     def get(self, request):
         return render(request, 'charity/form.html')
 
 
 class Login(View):
+
     def get(self, request):
         return render(request, 'charity/login.html')
 
 
 class Register(View):
+
     def get(self, request):
         return render(request, 'charity/register.html')
+
+    def post(self, request):
+        first_name = request.POST.get('name')
+        last_name = request.POST.get('surname')
+        username = request.POST.get('email')
+        if request.POST.get('password') == request.POST.get('password2'):
+            password = request.POST.get('password')
+            User.objects.create_user(username=username,
+                                     first_name=first_name,
+                                     last_name=last_name,
+                                     password=password)
+            return redirect('login')
+        else:
+            info = 'Hasło inne niż wpisane wcześniej, spróbuj ponownie.'
+            return render(request, 'charity/register.html', {'info': info})
+
