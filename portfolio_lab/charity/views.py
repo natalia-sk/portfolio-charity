@@ -31,7 +31,9 @@ class AddDonation(View):
     @method_decorator(login_required)
     def get(self, request):
         categories = Category.objects.all()
-        ctx = {'categories': categories}
+        institutions = Institution.objects.all()
+        ctx = {'categories': categories,
+               'institutions': institutions}
         return render(request, 'charity/form.html', ctx)
 
 
