@@ -61,16 +61,19 @@ class Register(View):
         first_name = request.POST.get('name')
         last_name = request.POST.get('surname')
         username = request.POST.get('email')
-        if request.POST.get('password') == request.POST.get('password2'):
+        if len(request.POST.get('password')) >= 8 and (request.POST.get('password') == request.POST.get('password2')):
             password = request.POST.get('password')
             User.objects.create_user(username=username,
                                      first_name=first_name,
                                      last_name=last_name,
                                      password=password)
             return redirect('login')
+        elif len(request.POST.get('password')) < 8:
+            info_1 = 'Hasło jest za krótkie, powinno mieć min. 8 znaków.'
+            return render(request, 'charity/register.html', {'info_1': info_1})
         else:
-            info = 'Hasło inne niż wpisane wcześniej, spróbuj ponownie.'
-            return render(request, 'charity/register.html', {'info': info})
+            info_2 = 'Hasło inne niż wpisane wcześniej, spróbuj ponownie.'
+            return render(request, 'charity/register.html', {'info_2': info_2})
 
 
 class Logout(View):
