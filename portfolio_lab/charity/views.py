@@ -1,10 +1,12 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
 
 from django.views import View
 
-from charity.models import Donation, Institution
+from charity.models import Donation, Institution, Category
 
 
 class LandingPage(View):
@@ -26,9 +28,11 @@ class LandingPage(View):
 
 
 class AddDonation(View):
-
+    @method_decorator(login_required)
     def get(self, request):
-        return render(request, 'charity/form.html')
+        categories = Category.objects.all()
+        ctx = {'categories': categories}
+        return render(request, 'charity/form.html', ctx)
 
 
 class Login(View):
