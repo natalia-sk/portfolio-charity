@@ -231,7 +231,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // institution's category
                 var categories = document.querySelectorAll("span.category-id");
                 // checkbox step 1
-                var checkedCategories = (document.querySelectorAll('input.category-checkbox'));
+                var checkedCategories = document.querySelectorAll('input.category-checkbox');
 
                 // array with categories id from step 1/5
                 var checkedCategoriesStepOne = [];
@@ -251,7 +251,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     categoryResultFinal.push(categoryResultTemp[c].split(''))
                 }
 
-                function arrayContainsArray (firstArray, secondArray) {
+                function arrayContainsArray(firstArray, secondArray) {
                     if (0 === secondArray.length) {
                         return false;
                     }
@@ -304,4 +304,54 @@ document.addEventListener("DOMContentLoaded", function () {
     if (form !== null) {
         new FormSteps(form);
     }
+
+    var btn = document.getElementById("btn-step-4");
+    btn.addEventListener("click", function (event) {
+
+        // checked categories
+        var categories = document.querySelectorAll('input.category-checkbox');
+        var checkedCategoriesName = "";
+        for (var i = 0; i < categories.length; i++) {
+            if (categories[i].checked) {
+                checkedCategoriesName += categories[i].nextElementSibling.nextElementSibling.innerText + " "
+            }
+        }
+        // numer of bags
+        var numberOfBags = document.getElementById("bags").value;
+        // checked institution
+        var institutions = document.querySelectorAll("input.institution");
+        var checkedInstitution = "";
+        for (var ii = 0; ii < institutions.length; ii++) {
+            if (institutions[ii].checked) {
+                checkedInstitution += institutions[ii].nextElementSibling.nextElementSibling.firstElementChild.innerText
+            }
+        }
+
+        // all pick-up details
+        var address = document.getElementById("address").value;
+        var city = document.getElementById("city").value;
+        var postcode = document.getElementById("postcode").value;
+        var phone = document.getElementById("phone").value;
+        var data = document.getElementById("data").value;
+        var time = document.getElementById("time").value;
+        var moreInfo = document.getElementById("more-info").value;
+
+        // info bags and institution
+        var summary = document.querySelectorAll("span.summary--text");
+        summary[0].innerText = `${numberOfBags} worki - ${checkedCategoriesName}`;
+        summary[1].innerText = `Dla ${checkedInstitution}`;
+
+        // left col
+        var pickUpInfo = document.querySelectorAll("ul#pick-up-info>li");
+        pickUpInfo[0].innerText = address;
+        pickUpInfo[1].innerText = city;
+        pickUpInfo[2].innerText = postcode;
+        pickUpInfo[3].innerText = phone;
+
+        // right col
+        var pickUpTime = document.querySelectorAll("ul#pick-up-time>li");
+        pickUpTime[0].innerText = data;
+        pickUpTime[1].innerText = time;
+        pickUpTime[2].innerText = moreInfo;
+    })
 });

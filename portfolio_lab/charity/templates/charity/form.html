@@ -67,9 +67,7 @@
               <label>
                 <input type="checkbox" name="categories" value="{{ category.id }}" class="category-checkbox">
                 <span class="checkbox"></span>
-                <span class="description">
-                  {{ category.name }}
-                </span>
+                <span class="description">{{ category.name }}</span>
               </label>
             </div>
           {% endfor %}
@@ -86,7 +84,7 @@
             <div class="form-group form-group--inline">
               <label>
                 Liczba 60l worków:
-                <input type="number" name="bags" step="1" min="1" />
+                <input type="number" name="bags" step="1" min="1" id="bags">
               </label>
             </div>
 
@@ -104,7 +102,7 @@
             {% for institution in institutions %}
             <div class="form-group form-group--checkbox institution" style="display: none">
               <label>
-                <input type="radio" name="organization" value="{{ institution.id }}" />
+                <input type="radio" name="organization" value="{{ institution.id }}" class="institution">
                 <span class="checkbox radio"></span>
                 <span class="description">
                   <div class="title">{{ institution.name }}</div>
@@ -130,22 +128,22 @@
               <div class="form-section--column">
                 <h4>Adres odbioru</h4>
                 <div class="form-group form-group--inline">
-                  <label> Ulica <input type="text" name="address" /> </label>
+                  <label> Ulica <input type="text" name="address" id="address"> </label>
                 </div>
 
                 <div class="form-group form-group--inline">
-                  <label> Miasto <input type="text" name="city" /> </label>
+                  <label> Miasto <input type="text" name="city" id="city"> </label>
                 </div>
 
                 <div class="form-group form-group--inline">
                   <label>
-                    Kod pocztowy <input type="text" name="postcode" />
+                    Kod pocztowy <input type="text" name="postcode" id="postcode">
                   </label>
                 </div>
 
                 <div class="form-group form-group--inline">
                   <label>
-                    Numer telefonu <input type="text" name="phone" />
+                    Numer telefonu <input type="text" name="phone" id="phone">
                   </label>
                 </div>
               </div>
@@ -153,24 +151,24 @@
               <div class="form-section--column">
                 <h4>Termin odbioru</h4>
                 <div class="form-group form-group--inline">
-                  <label> Data <input type="date" name="data" min="{{ today }}"/> </label>
+                  <label> Data <input type="date" name="data" min="{{ today }}" id="data"> </label>
                 </div>
 
                 <div class="form-group form-group--inline">
-                  <label> Godzina <input type="time" name="time" /> </label>
+                  <label> Godzina <input type="time" name="time" id="time"> </label>
                 </div>
 
                 <div class="form-group form-group--inline">
                   <label>
                     Uwagi dla kuriera
-                    <textarea name="more_info" rows="5"></textarea>
+                    <textarea name="more_info" rows="5" id="more-info"></textarea>
                   </label>
                 </div>
               </div>
             </div>
             <div class="form-group form-group--buttons">
               <button type="button" class="btn prev-step">Wstecz</button>
-              <button type="button" class="btn next-step">Dalej</button>
+              <button type="button" class="btn next-step" id="btn-step-4">Dalej</button>
             </div>
           </div>
 
@@ -184,16 +182,12 @@
                 <ul>
                   <li>
                     <span class="icon icon-bag"></span>
-                    <span class="summary--text"
-                      >4 worki ubrań w dobrym stanie dla dzieci</span
-                    >
+                    <span class="summary--text">4 worki ubrań w dobrym stanie dla dzieci</span>
                   </li>
 
                   <li>
                     <span class="icon icon-hand"></span>
-                    <span class="summary--text"
-                      >Dla fundacji "Mam marzenie" w Warszawie</span
-                    >
+                    <span class="summary--text">Dla fundacji "Mam marzenie" w Warszawie</span>
                   </li>
                 </ul>
               </div>
@@ -201,7 +195,7 @@
               <div class="form-section form-section--columns">
                 <div class="form-section--column">
                   <h4>Adres odbioru:</h4>
-                  <ul>
+                  <ul id="pick-up-info">
                     <li>Prosta 51</li>
                     <li>Warszawa</li>
                     <li>99-098</li>
@@ -211,7 +205,7 @@
 
                 <div class="form-section--column">
                   <h4>Termin odbioru:</h4>
-                  <ul>
+                  <ul id="pick-up-time">
                     <li>13/12/2018</li>
                     <li>15:40</li>
                     <li>Brak uwag</li>
