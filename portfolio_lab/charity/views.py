@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -7,6 +9,8 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from charity.models import Donation, Institution, Category
+
+today = str(date.today())
 
 
 class LandingPage(View):
@@ -33,7 +37,8 @@ class AddDonation(View):
         categories = Category.objects.all()
         institutions = Institution.objects.all()
         ctx = {'categories': categories,
-               'institutions': institutions}
+               'institutions': institutions,
+               'today': today}
         return render(request, 'charity/form.html', ctx)
 
 
