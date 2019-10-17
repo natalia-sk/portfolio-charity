@@ -32,6 +32,7 @@ class LandingPage(View):
 
 
 class AddDonation(View):
+
     @method_decorator(login_required)
     def get(self, request):
         categories = Category.objects.all()
@@ -40,6 +41,36 @@ class AddDonation(View):
                'institutions': institutions,
                'today': today}
         return render(request, 'charity/form.html', ctx)
+
+    def post(self, request):
+        quantity = int(request.POST.get('bags'))
+        checked_categories = request.POST.getlist('categories')
+        categories = []
+        for i in checked_categories:
+            categories.append(Category.objects.get(id=i))
+
+        institution = request.POST.get('organization')
+        address = request.POST.get('address')
+        phone_number = request.POST.get('phone')
+        city = request.POST.get('city')
+        zip_code = request.POST.get('postcode')
+        pick_up_date = request.POST.get('data')
+        pick_up_time = request.POST.get('time')
+        pick_up_comment = request.POST.get('more_info')
+        user = request.user.id
+
+        donation = Donation.objects.create(quantity=quantity, institution_id=institution, address=address,
+                                           phone_number=phone_number, city=city, zip_code=zip_code,
+                                           pick_up_date=pick_up_date, pick_up_time=pick_up_time,
+                                           pick_up_comment=pick_up_comment, user_id=user)
+        donation.categories.set(categories)
+        donation.save()
+        return redirect('form-confirm')
+
+
+class AddDonationFormConfirm(View):
+    def get(self, request):
+        return render(request, 'charity/form-confirmation.html')
 
 
 class Login(View):
