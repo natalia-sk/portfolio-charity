@@ -2,9 +2,9 @@ from django.contrib.auth.models import User
 from django.db import models
 
 TYPES = (
-    (1, 'fundacja'),
-    (2, 'organizacja pozarządowa'),
-    (3, 'zbiórka lokalna')
+    (1, 'Fundacja'),
+    (2, 'Organizacja pozarządowa'),
+    (3, 'Zbiórka lokalna')
 )
 
 
@@ -29,7 +29,7 @@ class Donation(models.Model):
     categories = models.ManyToManyField(Category)
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
     address = models.CharField(max_length=64)
-    phone_number = models.CharField(max_length=16, null=True, default=None)
+    phone_number = models.CharField(max_length=16)
     city = models.CharField(max_length=64)
     zip_code = models.CharField(max_length=6)
     pick_up_date = models.DateField()
