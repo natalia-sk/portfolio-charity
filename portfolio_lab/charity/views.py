@@ -44,13 +44,11 @@ class AddDonation(View):
 
     def post(self, request):
         quantity = int(request.POST.get('bags'))
-        #  input type checkbox - lista wybranych kategorii - do sprawdzenia
         checked_categories = request.POST.getlist('categories')
         categories = []
         for i in checked_categories:
             categories.append(Category.objects.get(id=i))
 
-        # input type radio ??? do sprawdzenia czy działa
         institution = request.POST.get('organization')
         address = request.POST.get('address')
         phone_number = request.POST.get('phone')
