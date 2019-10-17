@@ -28,8 +28,7 @@ class Donation(models.Model):
     quantity = models.PositiveSmallIntegerField()
     categories = models.ManyToManyField(Category)
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
-    address_street = models.CharField(max_length=64)
-    address_number = models.PositiveSmallIntegerField()
+    address = models.CharField(max_length=64)
     phone_number = models.CharField(max_length=16, unique=True)
     city = models.CharField(max_length=64)
     zip_code = models.CharField(max_length=6)
@@ -37,7 +36,3 @@ class Donation(models.Model):
     pick_up_time = models.TimeField()
     pick_up_comment = models.CharField(max_length=255, null=True, default=None)
     user = models.ForeignKey(User, null=True, default=None, on_delete=models.CASCADE)
-
-    @property
-    def address(self):
-        return f"{self.address_street} {self.address_number}"
