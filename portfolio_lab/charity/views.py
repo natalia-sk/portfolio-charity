@@ -97,9 +97,11 @@ class Register(View):
         first_name = request.POST.get('name')
         last_name = request.POST.get('surname')
         username = request.POST.get('email')
+        email = request.POST.get('email')
         if len(request.POST.get('password')) >= 8 and (request.POST.get('password') == request.POST.get('password2')):
             password = request.POST.get('password')
             User.objects.create_user(username=username,
+                                     email=email,
                                      first_name=first_name,
                                      last_name=last_name,
                                      password=password)
