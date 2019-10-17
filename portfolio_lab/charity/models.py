@@ -11,6 +11,9 @@ TYPES = (
 class Category(models.Model):
     name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return f'{self.name}'
+
 
 class Institution(models.Model):
     name = models.CharField(max_length=255)
@@ -22,6 +25,9 @@ class Institution(models.Model):
     def name_type_of(self):
         name_type = dict(TYPES)[self.type_of]
         return name_type
+
+    def __str__(self):
+        return f'{self.name_type_of} "{self.name}"'
 
 
 class Donation(models.Model):
