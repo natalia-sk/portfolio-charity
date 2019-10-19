@@ -118,3 +118,8 @@ class Logout(View):
     def get(self, request):
         logout(request)
         return redirect('landing-page')
+
+
+class UserDetailsView(View):
+    def get(self, request):
+        return render(request, 'charity/user_details.html')

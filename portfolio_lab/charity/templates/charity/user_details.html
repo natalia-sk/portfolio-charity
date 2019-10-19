@@ -1,0 +1,24 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+    <header>
+      {% include 'base/header.html' %}
+    </header>
+    <section class="user-page">
+      <h2>Dane użytkownika</h2>
+      <div>
+          <p>
+              Imię: {{ user.first_name }}<br>
+              Nazwisko: {{ user.last_name }}<br>
+              e-mail: {{ user.email }}
+          </p>
+      </div>
+      <div>
+          <a href="{% url 'landing-page' %}" class="btn">Powrót</a>
+      </div>
+    </section>
+
+{% include 'base/footer.html' %}
+
+{% endblock content %}
