@@ -69,6 +69,7 @@ class AddDonation(View):
 
 
 class AddDonationFormConfirm(View):
+
     def get(self, request):
         return render(request, 'charity/form-confirmation.html')
 
@@ -115,11 +116,14 @@ class Register(View):
 
 
 class Logout(View):
+
     def get(self, request):
         logout(request)
         return redirect('landing-page')
 
 
 class UserDetailsView(View):
+
+    @method_decorator(login_required)
     def get(self, request):
         return render(request, 'charity/user_details.html')
