@@ -1843,3 +1843,21 @@ footer .bottom-line--icons a img {
   padding: 0 15px;
   margin: 50px 0;
 }
+
+.user-donations {
+  font-size: 20px;
+  padding: 0 15px;
+  margin: 50px 0;
+}
+
+#donation-table {
+  border-spacing: 30px;
+  width: 100%;
+  height: 15em;
+  border-collapse: collapse;
+
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}

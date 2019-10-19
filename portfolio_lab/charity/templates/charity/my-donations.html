@@ -1,0 +1,43 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+    <header>
+      {% include 'base/header.html' %}
+    </header>
+    <section class="user-donations">
+      <h2>Moje zbiórki</h2>
+      <div>
+          <table id="donation-table">
+              <tr>
+                  <th></th>
+                  <th>ile worków?</th>
+                  <th>dla kogo?</th>
+                  <th>co?</th>
+                  <th>kiedy?</th>
+              </tr>
+              {% for donation in user_donations %}
+              {% if donation.user_id == user.id %}
+              <tr>
+                  <td>{{ forloop.counter }}.</td>
+                  <td>{{ donation.quantity }} szt.</td>
+                  <td>{{ donation.institution.name_type_of }} "{{ donation.institution.name }}"</td>
+                  <td>
+                      {% for category in donation.categories.all %}
+                      {{ category.name }}
+                      {% endfor %}
+                  </td>
+                  <td>{{donation.pick_up_date|date:'Y-m-d' }} &nbsp;&nbsp;godz. {{ donation.pick_up_time|time:'H:i'}}</td>
+              </tr>
+              {% endif %}
+              {% endfor %}
+          </table>
+      </div>
+      <div class="user-page">
+          <a href="{% url 'landing-page' %}" class="btn">Powrót</a>
+      </div>
+    </section>
+
+{% include 'base/footer.html' %}
+
+{% endblock content %}
