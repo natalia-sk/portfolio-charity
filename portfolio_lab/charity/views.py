@@ -126,4 +126,4 @@ class UserDetailsView(View):
 
     @method_decorator(login_required)
     def get(self, request):
-        return render(request, 'charity/user_details.html')
+        return render(request, 'charity/user-details.html')
