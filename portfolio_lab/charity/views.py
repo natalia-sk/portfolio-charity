@@ -62,7 +62,7 @@ class AddDonation(View):
         donation = Donation.objects.create(quantity=quantity, institution_id=institution, address=address,
                                            phone_number=phone_number, city=city, zip_code=zip_code,
                                            pick_up_date=pick_up_date, pick_up_time=pick_up_time,
-                                           pick_up_comment=pick_up_comment, user_id=user)
+                                           pick_up_comment=pick_up_comment, user_id=user, is_taken=False)
         donation.categories.set(categories)
         donation.save()
         return redirect('form-confirm')
@@ -133,5 +133,21 @@ class UserDonationsList(View):
 
     @method_decorator(login_required)
     def get(self, request):
-        user_donations = Donation.objects.filter(user_id=request.user.id).order_by('-pick_up_date', '-pick_up_time')
+        user_donations = Donation.objects.filter(user_id=request.user.id).order_by('is_taken',
+                                                                                   '-pick_up_date',
+                                                                                   '-pick_up_time')
+        return render(request, 'charity/my-donations.html', {'user_donations': user_donations})
+
+    def post(self, request):
+        user_donations = Donation.objects.filter(user_id=request.user.id).order_by('is_taken',
+                                                                                   '-pick_up_date',
+                                                                                   '-pick_up_time',)
+        if request.POST.get('donation_id'):
+            donation = Donation.objects.get(id=request.POST.get('donation_id'))
+            donation.is_taken = True
+            donation.save()
+        else:
+            donation = Donation.objects.get(id=request.POST.get('donation_id_back'))
+            donation.is_taken = False
+            donation.save()
         return render(request, 'charity/my-donations.html', {'user_donations': user_donations})

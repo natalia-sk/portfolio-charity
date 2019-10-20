@@ -2,41 +2,68 @@
 {% load static %}
 
 {% block content %}
-    <header>
-      {% include 'base/header.html' %}
-    </header>
-    <section class="user-donations">
-      <h2>Moje zbiórki</h2>
-      <div>
-          <table id="donation-table">
-              <tr>
-                  <th></th>
-                  <th>ile worków?</th>
-                  <th>dla kogo?</th>
-                  <th>co?</th>
-                  <th>kiedy?</th>
-              </tr>
-              {% for donation in user_donations %}
-              {% if donation.user_id == user.id %}
-              <tr>
-                  <td>{{ forloop.counter }}.</td>
-                  <td>{{ donation.quantity }} szt.</td>
-                  <td>{{ donation.institution.name_type_of }} "{{ donation.institution.name }}"</td>
-                  <td>
-                      {% for category in donation.categories.all %}
-                      {{ category.name }}
-                      {% endfor %}
-                  </td>
-                  <td>{{donation.pick_up_date|date:'Y-m-d' }} &nbsp;&nbsp;godz. {{ donation.pick_up_time|time:'H:i'}}</td>
-              </tr>
-              {% endif %}
-              {% endfor %}
-          </table>
-      </div>
-      <div class="user-page">
-          <a href="{% url 'landing-page' %}" class="btn">Powrót</a>
-      </div>
-    </section>
+<header>
+    {% include 'base/header.html' %}
+</header>
+<section class="user-donations">
+    <h2>Moje zbiórki</h2>
+    <div>
+        <table id="donation-table">
+            <tr>
+                <th></th>
+                <th>ile worków?</th>
+                <th>dla kogo?</th>
+                <th>co?</th>
+                <th>kiedy?</th>
+                <th colspan="2">odebrane?</th>
+
+            </tr>
+            {% for donation in user_donations %}
+            {% if donation.user_id == user.id %}
+            <tr>
+                <td>{{ forloop.counter }}.</td>
+                <td>{{ donation.quantity }} szt.</td>
+                <td>{{ donation.institution.name_type_of }} "{{ donation.institution.name }}"</td>
+                <td>
+                    {% for category in donation.categories.all %}
+                    {{ category.name }}
+                    {% endfor %}
+                </td>
+                <td>{{ donation.pick_up_date|date:'Y-m-d' }} &nbsp;&nbsp;godz. {{ donation.pick_up_time|time:'H:i'}}
+                </td>
+                <td class="pick-up-donation">
+                    {% if donation.is_taken == True %}
+                    Odebrane, dziękujemy!
+                    {% else %}
+                    Czeka na odbiór przez kuriera
+                    {% endif %}
+                </td>
+                <td class="pick-up-donation">
+                    {% if donation.is_taken == True %}
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <button type="submit" name="donation_id_back" value="{{ donation.id }}"
+                                class="btn btn--without-border">Cofnij potwierdzenie
+                        </button>
+                    </form>
+                    {% else %}
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <button type="submit" name="donation_id" value="{{ donation.id }}"
+                                class="btn btn--without-border">Potwierdź odbiór
+                        </button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </table>
+    </div>
+    <div class="user-page">
+        <a href="{% url 'landing-page' %}" class="btn">Powrót</a>
+    </div>
+</section>
 
 {% include 'base/footer.html' %}
 

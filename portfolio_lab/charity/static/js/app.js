@@ -72,6 +72,17 @@ document.addEventListener("DOMContentLoaded", function () {
         new Help(helpSection);
     }
 
+    // Donation list
+    var tds = document.querySelectorAll("td.pick-up-donation");
+    console.log(tds);
+
+    for (var i = 0; i < tds.length; i++) {
+        if (tds[i].innerText === 'Odebrane, dziękujemy!') {
+            tds[i].parentElement.style.color = '#acacac';
+            tds[i].parentElement.style.backgroundColor = '#FFF'
+        }
+    }
+
     /**
      * Form Select
      */
@@ -286,6 +297,56 @@ document.addEventListener("DOMContentLoaded", function () {
             this.$step.parentElement.hidden = this.currentStep >= 6;
 
             // TODO: get data from inputs and show them in summary
+
+            var btn = document.getElementById("btn-step-4");
+            btn.addEventListener("click", function (event) {
+
+                // checked categories
+                var categories = document.querySelectorAll('input.category-checkbox');
+                var checkedCategoriesName = "";
+                for (var i = 0; i < categories.length; i++) {
+                    if (categories[i].checked) {
+                        checkedCategoriesName += categories[i].nextElementSibling.nextElementSibling.innerText + " "
+                    }
+                }
+                // numer of bags
+                var numberOfBags = document.getElementById("bags").value;
+                // checked institution
+                var institutions = document.querySelectorAll("input.institution");
+                var checkedInstitution = "";
+                for (var ii = 0; ii < institutions.length; ii++) {
+                    if (institutions[ii].checked) {
+                        checkedInstitution += institutions[ii].nextElementSibling.nextElementSibling.firstElementChild.innerText
+                    }
+                }
+
+                // all pick-up details
+                var address = document.getElementById("address").value;
+                var city = document.getElementById("city").value;
+                var postcode = document.getElementById("postcode").value;
+                var phone = document.getElementById("phone").value;
+                var data = document.getElementById("data").value;
+                var time = document.getElementById("time").value;
+                var moreInfo = document.getElementById("more-info").value;
+
+                // info bags and institution
+                var summary = document.querySelectorAll("span.summary--text");
+                summary[0].innerText = `${numberOfBags} worki - ${checkedCategoriesName}`;
+                summary[1].innerText = `Dla ${checkedInstitution}`;
+
+                // left col
+                var pickUpInfo = document.querySelectorAll("ul#pick-up-info>li");
+                pickUpInfo[0].innerText = address;
+                pickUpInfo[1].innerText = city;
+                pickUpInfo[2].innerText = postcode;
+                pickUpInfo[3].innerText = phone;
+
+                // right col
+                var pickUpTime = document.querySelectorAll("ul#pick-up-time>li");
+                pickUpTime[0].innerText = data;
+                pickUpTime[1].innerText = time;
+                pickUpTime[2].innerText = moreInfo;
+            });
         }
 
         /**
@@ -305,53 +366,5 @@ document.addEventListener("DOMContentLoaded", function () {
         new FormSteps(form);
     }
 
-    var btn = document.getElementById("btn-step-4");
-    btn.addEventListener("click", function (event) {
 
-        // checked categories
-        var categories = document.querySelectorAll('input.category-checkbox');
-        var checkedCategoriesName = "";
-        for (var i = 0; i < categories.length; i++) {
-            if (categories[i].checked) {
-                checkedCategoriesName += categories[i].nextElementSibling.nextElementSibling.innerText + " "
-            }
-        }
-        // numer of bags
-        var numberOfBags = document.getElementById("bags").value;
-        // checked institution
-        var institutions = document.querySelectorAll("input.institution");
-        var checkedInstitution = "";
-        for (var ii = 0; ii < institutions.length; ii++) {
-            if (institutions[ii].checked) {
-                checkedInstitution += institutions[ii].nextElementSibling.nextElementSibling.firstElementChild.innerText
-            }
-        }
-
-        // all pick-up details
-        var address = document.getElementById("address").value;
-        var city = document.getElementById("city").value;
-        var postcode = document.getElementById("postcode").value;
-        var phone = document.getElementById("phone").value;
-        var data = document.getElementById("data").value;
-        var time = document.getElementById("time").value;
-        var moreInfo = document.getElementById("more-info").value;
-
-        // info bags and institution
-        var summary = document.querySelectorAll("span.summary--text");
-        summary[0].innerText = `${numberOfBags} worki - ${checkedCategoriesName}`;
-        summary[1].innerText = `Dla ${checkedInstitution}`;
-
-        // left col
-        var pickUpInfo = document.querySelectorAll("ul#pick-up-info>li");
-        pickUpInfo[0].innerText = address;
-        pickUpInfo[1].innerText = city;
-        pickUpInfo[2].innerText = postcode;
-        pickUpInfo[3].innerText = phone;
-
-        // right col
-        var pickUpTime = document.querySelectorAll("ul#pick-up-time>li");
-        pickUpTime[0].innerText = data;
-        pickUpTime[1].innerText = time;
-        pickUpTime[2].innerText = moreInfo;
-    })
 });
