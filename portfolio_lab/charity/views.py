@@ -2,12 +2,15 @@ from datetime import date
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 
 from django.views import View
 
+from charity.forms import MyUserChangeForm
 from charity.models import Donation, Institution, Category
 
 today = str(date.today())
@@ -151,3 +154,43 @@ class UserDonationsList(View):
             donation.is_taken = False
             donation.save()
         return render(request, 'charity/my-donations.html', {'user_donations': user_donations})
+
+
+class EditUserDetailsView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        form = MyUserChangeForm()
+        return render(request, 'charity/edit_user.html', {'form': form})
+
+    def post(self, request):
+        current_password = request.user.password
+        form = MyUserChangeForm(request.POST)
+        user = User.objects.get(id=request.user.id)
+
+        if form.is_valid():
+            password_confirm = form.cleaned_data['password']
+            password_check = check_password(password_confirm, current_password)
+            if password_check:
+                user.first_name = form.cleaned_data['first_name']
+                user.last_name = form.cleaned_data['last_name']
+                user.save()
+                return redirect('user-details')
+            else:
+                info = 'Niepoprawne hasło'
+                return render(request, 'charity/edit_user.html', {'form': form, 'info': info})
+        return render(request, 'charity/edit_user.html', {'form': form})
+
+
+class ChangeUserPasswordView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        form = PasswordChangeForm(request.user)
+        return render(request, 'charity/password.html', {'form': form})
+
+    def post(self, request):
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            u = form.save()
+            login(request, u)
+            return redirect('landing-page')
+        return render(request, 'charity/password.html', {'form': form})
