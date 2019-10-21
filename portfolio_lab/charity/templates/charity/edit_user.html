@@ -1,0 +1,32 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+<header>
+    {% include 'base/header.html' %}
+</header>
+<section class="login-page">
+    <h2>Edytuj swoje dane</h2>
+    <div>
+          <p>
+              Imię: {{ user.first_name }}<br>
+              Nazwisko: {{ user.last_name }}<br>
+          </p>
+      </div>
+    <form method="POST" action="" class="form-group">
+        {% csrf_token %}
+        <div class="form-group">
+         {{ form }}
+        {{ info }}
+        </div>
+        <div class="form-group form-group--buttons">
+            <a href="{% url 'landing-page' %}" class="btn btn--without-border">Powrót</a>
+            <a href="{% url 'password' %}" class="btn btn--without-border">Zmień hasło tutaj</a>
+            <button class="btn" type="submit">Zmień dane</button>
+        </div>
+    </form>
+</section>
+
+{% include 'base/footer.html' %}
+
+{% endblock content %}

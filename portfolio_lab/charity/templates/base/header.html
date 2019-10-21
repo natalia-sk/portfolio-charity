@@ -7,7 +7,7 @@
             <ul class="dropdown">
               <li><a href="{% url 'user-details' %}">Profil</a></li>
               <li><a href="{% url 'user-donations' %}">Moje zbiórki</a></li>
-              <li><a href="#">Ustawienia</a></li>
+              <li><a href="{% url 'user-details-edit' %}">Ustawienia</a></li>
               {% if user.is_superuser%}
                 <li><a href="/admin">Panel administracyjny</a></li>
               {% endif %}
