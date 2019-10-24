@@ -144,7 +144,7 @@ class UserDonationsList(View):
     def post(self, request):
         user_donations = Donation.objects.filter(user_id=request.user.id).order_by('is_taken',
                                                                                    '-pick_up_date',
-                                                                                   '-pick_up_time',)
+                                                                                   '-pick_up_time', )
         if request.POST.get('donation_id'):
             donation = Donation.objects.get(id=request.POST.get('donation_id'))
             donation.is_taken = True
@@ -159,7 +159,7 @@ class UserDonationsList(View):
 class EditUserDetailsView(View):
     @method_decorator(login_required)
     def get(self, request):
-        form = MyUserChangeForm()
+        form = MyUserChangeForm(initial={'first_name': request.user.first_name, 'last_name': request.user.last_name})
         return render(request, 'charity/edit_user.html', {'form': form})
 
     def post(self, request):
