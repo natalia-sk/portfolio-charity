@@ -7,17 +7,11 @@
 </header>
 <section class="login-page">
     <h2>Edytuj swoje dane</h2>
-    <div>
-          <p>
-              Imię: {{ user.first_name }}<br>
-              Nazwisko: {{ user.last_name }}<br>
-          </p>
-      </div>
     <form method="POST" action="" class="form-group">
         {% csrf_token %}
         <div class="form-group">
-         {{ form }}
-        {{ info }}
+            {{ form }}
+            {{ info }}
         </div>
         <div class="form-group form-group--buttons">
             <a href="{% url 'landing-page' %}" class="btn btn--without-border">Powrót</a>
