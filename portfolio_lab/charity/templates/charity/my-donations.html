@@ -10,18 +10,18 @@
     <div>
         <table id="donation-table">
             <tr>
-                <th></th>
-                <th>ile worków?</th>
-                <th>dla kogo?</th>
-                <th>co?</th>
-                <th>kiedy?</th>
-                <th colspan="2">odebrane?</th>
-
+                <th>Data utworzenia</th>
+                <th>Ilość worków</th>
+                <th>Instytucja</th>
+                <th>Co w workach?</th>
+                <th>Termin odbioru</th>
+                <th colspan="2">Status</th>
+                <th>Data potwierdzenia</th>
             </tr>
             {% for donation in user_donations %}
             {% if donation.user_id == user.id %}
             <tr>
-                <td>{{ forloop.counter }}.</td>
+                <td>{{ donation.created|date:'Y-m-d H:i'}}</td>
                 <td>{{ donation.quantity }} szt.</td>
                 <td>{{ donation.institution.name_type_of }} "{{ donation.institution.name }}"</td>
                 <td>
@@ -53,6 +53,11 @@
                                 class="btn btn--without-border">Potwierdź odbiór
                         </button>
                     </form>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if donation.is_taken == True %}
+                    {{ donation.picked_up|date:'Y-m-d H:i'}}
                     {% endif %}
                 </td>
             </tr>
