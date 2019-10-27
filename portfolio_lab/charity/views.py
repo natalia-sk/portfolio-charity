@@ -6,6 +6,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 
 from django.views import View
@@ -137,21 +138,23 @@ class UserDonationsList(View):
     @method_decorator(login_required)
     def get(self, request):
         user_donations = Donation.objects.filter(user_id=request.user.id).order_by('is_taken',
-                                                                                   '-pick_up_date',
-                                                                                   '-pick_up_time')
+                                                                                   '-picked_up',
+                                                                                   '-created')
         return render(request, 'charity/my-donations.html', {'user_donations': user_donations})
 
     def post(self, request):
         user_donations = Donation.objects.filter(user_id=request.user.id).order_by('is_taken',
-                                                                                   '-pick_up_date',
-                                                                                   '-pick_up_time', )
+                                                                                   '-picked_up',
+                                                                                   '-created')
         if request.POST.get('donation_id'):
             donation = Donation.objects.get(id=request.POST.get('donation_id'))
             donation.is_taken = True
+            donation.picked_up = timezone.now()
             donation.save()
         else:
             donation = Donation.objects.get(id=request.POST.get('donation_id_back'))
             donation.is_taken = False
+            donation.picked_up = None
             donation.save()
         return render(request, 'charity/my-donations.html', {'user_donations': user_donations})
 
