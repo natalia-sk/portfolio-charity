@@ -1,4 +1,4 @@
-from datetime import date
+import datetime
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -14,7 +14,7 @@ from django.views import View
 from charity.forms import MyUserChangeForm
 from charity.models import Donation, Institution, Category
 
-today = str(date.today())
+tomorrow = str(datetime.date.today() + datetime.timedelta(days=1))
 
 
 class LandingPage(View):
@@ -43,7 +43,7 @@ class AddDonation(View):
         institutions = Institution.objects.all()
         ctx = {'categories': categories,
                'institutions': institutions,
-               'today': today}
+               'tomorrow': tomorrow}
         return render(request, 'charity/form.html', ctx)
 
     def post(self, request):
